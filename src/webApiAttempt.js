@@ -1,19 +1,17 @@
+
+
 (async () => {
-  let totalEntitiesCount = 0;
-  let moreRecords = true;
-  let skipToken;
-  while(moreRecords) {
-    const result = await Xrm.WebApi.online.retrieveMultipleRecords(
-      "contact",
-      `?$select=contactid${ skipToken ? `&$skiptoken=${encodeURIComponent(skipToken)}` : "" }`);
-    totalEntitiesCount += result.entities.length;
-    if(result.nextLink) {
-      const nextUrl = new URL(result.nextLink);
-      skipToken = nextUrl.searchParams.get("$skiptoken");
-      console.log(`${totalEntitiesCount}. getting more records...`);
-    } else {
-      moreRecords = false;
-    }
+  const someLetters = "abcdefghijklmnopqrstuvwxyz";
+  const charArray = [];
+  for(let i = 0; i < someLetters.length; i++) {
+    charArray.push(someLetters.substr(i, 1));
   }
-  console.log(totalEntitiesCount);
+  const filter = charArray
+    .map(c => `startswith(firstname,'${c}')`)
+    .join(" or ");
+  const count = await getTotalRecordCount(
+    "contact",
+    `?$select=contactid&$filter=${filter}`
+  );
+  console.log(count);
 })();
