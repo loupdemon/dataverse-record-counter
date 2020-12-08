@@ -5,7 +5,7 @@
       "files": [
         {
           "uniquename": "ladph_/ribbon/record_counter.js",
-          "file": "record-counter.js"
+          "file": ".\\dist\\main.js"
         }
       ]
     }
