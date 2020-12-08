@@ -1,0 +1,13 @@
+{
+  "webresources": [
+    {
+      "solution": "RecordCounter",
+      "files": [
+        {
+          "uniquename": "ladph_/ribbon/record_counter.js",
+          "file": "record-counter.js"
+        }
+      ]
+    }
+  ]
+}
