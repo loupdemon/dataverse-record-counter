@@ -2,10 +2,15 @@
   "webresources": [
     {
       "solution": "RecordCounter",
+      "deleteaction": "delete",
       "files": [
         {
-          "uniquename": "ladph_/ribbon/record_counter.js",
+          "uniquename": "ladph_/ribbon/record_counter/main.js",
           "file": ".\\dist\\main.js"
+        },
+        {
+          "uniquename": "ladph_/ribbon/record_counter/index.html",
+          "file": ".\\dist\\index.html"
         }
       ]
     }
