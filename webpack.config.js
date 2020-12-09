@@ -4,7 +4,17 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
-  plugins: [new webpack.ProgressPlugin()],
+  plugins: [
+    new webpack.ProgressPlugin(),
+    new webpack.ProvidePlugin({
+      Buffer: ["buffer", "Buffer"],
+    }),
+  ],
+
+  output: {
+    libraryTarget: "this",
+    library: "getTotalRecordCount"
+  },
 
   module: {
     rules: [
@@ -47,6 +57,12 @@ module.exports = {
       minChunks: 1,
       minSize: 30000,
       name: false,
+    },
+  },
+
+  resolve: {
+    fallback: {
+      stream: require.resolve("stream-browserify"),
     },
   },
 };

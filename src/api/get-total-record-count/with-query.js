@@ -1,4 +1,4 @@
-export default async function getTotalRecordCount(entityName, query) {
+export default async function getTotalRecordCountWithQuery(entityName, query) {
   let totalEntitiesCount = 0;
   let moreRecords = true;
   let skipToken;

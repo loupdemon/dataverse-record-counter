@@ -1,17 +1,17 @@
 import "regenerator-runtime/runtime";
-import getTotalRecordCount from "./get-total-record-count";
-import createAbcFilter from "./create-abc-filter";
+import "stream-browserify";
+import getEntityPluralName from "./api/get-entity-plural-name";
+import getTotalRecordCountWithFetch from "./api/get-total-record-count/with-fetch";
 
-(async () => {
-  console.log(
-    await getTotalRecordCount("contact", `?$filter=${createAbcFilter(13)}`)
-  );
-})();
-
-/*
-"<fetch>" +
-  "<entity name='contact'>" +
-    "<attribute name='contactid' />" +
-  "</entity>" +
-"</fetch>"
-*/
+export default async function getTotalRecordCount(context) {
+  const fetchXml = context.getFetchXml();
+  const logicalName = context.getEntityName();
+  const [recordCount, entityPluralName] = await Promise.all([
+    getTotalRecordCountWithFetch(logicalName, fetchXml),
+    getEntityPluralName(logicalName),
+  ]);
+  Xrm.Navigation.openAlertDialog({
+    title: "Total Count",
+    text: `There are a total of ${recordCount.toLocaleString()} ${entityPluralName} in this view.`,
+  });
+};
