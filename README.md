@@ -1,15 +1,3 @@
-# 🚀 Welcome to your new awesome project!
+# Dataverse Record Counter
 
-This project has been created using **webpack scaffold**, you can now run
-
-```
-npm run build
-```
-
-or
-
-```
-yarn build
-```
-
-to bundle your application
+This project defines a simple JavaScript function to alert the total record count in a grid.
