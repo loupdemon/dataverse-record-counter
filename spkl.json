@@ -5,7 +5,7 @@
       "deleteaction": "delete",
       "files": [
         {
-          "uniquename": "ladph_/ribbon/record_counter/main.js",
+          "uniquename": "path_/to/main.js",
           "file": ".\\dist\\main.js"
         }
       ]

@@ -11,7 +11,7 @@ export default async function getTotalRecordCount(context) {
     getEntityPluralName(logicalName),
   ]);
   Xrm.Navigation.openAlertDialog({
-    title: "Total Count",
-    text: `There are a total of ${recordCount.toLocaleString()} ${entityPluralName} in this view.`,
+    title: "Total Record Count",
+    text: `${recordCount.toLocaleString()} ${entityPluralName}`,
   });
 }
