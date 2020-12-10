@@ -48,7 +48,8 @@ export default async function getTotalRecordCountWithFetch(entityName, fetch) {
   let totalEntitiesCount = 0;
   let moreRecords = true;
   while (moreRecords) {
-    const fetchXml = json2xml(JSON.stringify(fetchObject));
+    const fetchXml = fetchDocument.toString();
+    console.log(fetchXml);
     const result = await getApiResult(entitySetName, {
       fetchXml: fetchXml,
     });
