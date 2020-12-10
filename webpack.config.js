@@ -6,14 +6,14 @@ module.exports = {
   mode: "production",
   plugins: [
     new webpack.ProgressPlugin(),
-    new webpack.ProvidePlugin({
+    /*new webpack.ProvidePlugin({
       Buffer: ["buffer", "Buffer"],
-    }),
+    }),*/
   ],
 
   output: {
     libraryTarget: "this",
-    library: "getTotalRecordCount"
+    library: "getTotalRecordCount",
   },
 
   module: {
@@ -60,9 +60,9 @@ module.exports = {
     },
   },
 
-  resolve: {
+  /*resolve: {
     fallback: {
       stream: require.resolve("stream-browserify"),
     },
-  },
+  },*/
 };

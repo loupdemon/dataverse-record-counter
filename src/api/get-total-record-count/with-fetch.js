@@ -1,11 +1,30 @@
-import { json2xml, xml2json } from "xml-js";
+//import { json2xml, xml2json } from "xml-js";
+import XmlCore, { XmlNodeType } from "xml-core";
 import getApiResult from "../get-api-result";
 import getEntitySetName from "../get-entity-set-name";
 
 export default async function getTotalRecordCountWithFetch(entityName, fetch) {
   const entitySetName = await getEntitySetName(entityName);
 
-  const fetchObject = JSON.parse(
+  const fetchDocument = XmlCore.Parse(fetch);
+  const fetchNode = fetchDocument.firstElementChild;
+  fetchNode.setAttribute("count", "5000");
+  fetchNode.setAttribute("page", "1");
+
+  const entityNode = fetchNode.firstElementChild;
+  entityNode.childNodes.forEach((element) => {
+    if (
+      element.nodeType !== XmlNodeType.Element ||
+      (element.nodeName === "attribute" &&
+        element.getAttribute("name") !== `${entityName}id`) ||
+      element.nodeName === "all-attributes" ||
+      element.nodeName === "order"
+    ) {
+      element.remove();
+    }
+  });
+
+  /*const fetchObject = JSON.parse(
     xml2json(fetch, {
       compact: false,
     })
@@ -24,7 +43,7 @@ export default async function getTotalRecordCountWithFetch(entityName, fetch) {
       ) &&
       element.name !== "order" &&
       element.name !== "all-attributes"
-  );
+  );*/
 
   let totalEntitiesCount = 0;
   let moreRecords = true;
