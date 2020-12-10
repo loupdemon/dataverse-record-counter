@@ -26,7 +26,6 @@
     "buffer": "^6.0.3",
     "regenerator-runtime": "^0.13.7",
     "stream-browserify": "^3.0.0",
-    "xml-core": "^1.1.0",
-    "xml-js": "github:tyler-hogsett-microsoft/xml-js"
+    "xml-core": "^1.1.0"
   }
 }

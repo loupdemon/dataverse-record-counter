@@ -1,66 +1,44 @@
-//import { json2xml, xml2json } from "xml-js";
-import XmlCore, { XmlNodeType } from "xml-core";
+import { Parse, XmlNodeType, Stringify } from "xml-core";
 import getApiResult from "../get-api-result";
 import getEntitySetName from "../get-entity-set-name";
 
 export default async function getTotalRecordCountWithFetch(entityName, fetch) {
   const entitySetName = await getEntitySetName(entityName);
 
-  const fetchDocument = XmlCore.Parse(fetch);
+  const fetchDocument = Parse(fetch);
   const fetchNode = fetchDocument.firstElementChild;
   fetchNode.setAttribute("count", "5000");
   fetchNode.setAttribute("page", "1");
 
   const entityNode = fetchNode.firstElementChild;
-  entityNode.childNodes.forEach((element) => {
+  const childNodesToRemove = [];
+  entityNode.childNodes.forEach((childNode) => {
     if (
-      element.nodeType !== XmlNodeType.Element ||
-      (element.nodeName === "attribute" &&
-        element.getAttribute("name") !== `${entityName}id`) ||
-      element.nodeName === "all-attributes" ||
-      element.nodeName === "order"
+      childNode.nodeType !== XmlNodeType.Element ||
+      (childNode.nodeName === "attribute" &&
+        childNode.getAttribute("name") !== `${entityName}id`) ||
+      childNode.nodeName === "all-attributes" ||
+      childNode.nodeName === "order"
     ) {
-      element.remove();
+      childNodesToRemove.push(childNode);
     }
   });
-
-  /*const fetchObject = JSON.parse(
-    xml2json(fetch, {
-      compact: false,
-    })
-  );
-  const fetchNode = fetchObject.elements[0];
-  fetchNode.attributes.count = "5000";
-  if (!fetchNode.attributes.page) {
-    fetchNode.attributes.page = "1";
-  }
-  const entityNode = fetchNode.elements[0];
-  entityNode.elements = entityNode.elements.filter(
-    (element) =>
-      !(
-        element.name === "attribute" &&
-        element.attributes.name !== `${entityName}id`
-      ) &&
-      element.name !== "order" &&
-      element.name !== "all-attributes"
-  );*/
+  childNodesToRemove.forEach((childNode) => entityNode.removeChild(childNode));
 
   let totalEntitiesCount = 0;
   let moreRecords = true;
   while (moreRecords) {
-    const fetchXml = fetchDocument.toString();
-    console.log(fetchXml);
+    const fetchXml = Stringify(fetchDocument);
     const result = await getApiResult(entitySetName, {
       fetchXml: fetchXml,
     });
     const fetchXmlPagingCookie =
       result["@Microsoft.Dynamics.CRM.fetchxmlpagingcookie"];
     if (fetchXmlPagingCookie) {
-      const fetchXmlPagingCookieObject = JSON.parse(
-        xml2json(fetchXmlPagingCookie)
+      const fetchXmlPagingCookieObject = Parse(fetchXmlPagingCookie);
+      const encodedPagingCookie = fetchXmlPagingCookieObject.firstElementChild.getAttribute(
+        "pagingcookie"
       );
-      const encodedPagingCookie =
-        fetchXmlPagingCookieObject.elements[0].attributes.pagingcookie;
       const pagingCookieXml = decodeURIComponent(
         decodeURIComponent(encodedPagingCookie)
       );
