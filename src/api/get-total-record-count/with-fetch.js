@@ -8,7 +8,8 @@ export default async function getTotalRecordCountWithFetch(entityName, fetch) {
   const fetchDocument = Parse(fetch);
   const fetchNode = fetchDocument.firstElementChild;
   fetchNode.setAttribute("count", "5000");
-  fetchNode.setAttribute("page", "1");
+  let page = 1;
+  fetchNode.setAttribute("page", page);
 
   const entityNode = fetchNode.firstElementChild;
   const childNodesToRemove = [];
@@ -42,8 +43,9 @@ export default async function getTotalRecordCountWithFetch(entityName, fetch) {
       const pagingCookieXml = decodeURIComponent(
         decodeURIComponent(encodedPagingCookie)
       );
-      fetchNode.attributes["paging-cookie"] = pagingCookieXml;
-      fetchNode.attributes["page"] = parseInt(fetchNode.attributes["page"]) + 1;
+      fetchNode.setAttribute("paging-cookie", pagingCookieXml);
+      page++;
+      fetchNode.setAttribute("page", page);
     } else {
       moreRecords = false;
     }

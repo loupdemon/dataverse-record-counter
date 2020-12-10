@@ -4,12 +4,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
-  plugins: [
-    new webpack.ProgressPlugin(),
-    /*new webpack.ProvidePlugin({
-      Buffer: ["buffer", "Buffer"],
-    }),*/
-  ],
+  plugins: [new webpack.ProgressPlugin()],
 
   output: {
     libraryTarget: "this",
@@ -59,10 +54,4 @@ module.exports = {
       name: false,
     },
   },
-
-  /*resolve: {
-    fallback: {
-      stream: require.resolve("stream-browserify"),
-    },
-  },*/
 };
