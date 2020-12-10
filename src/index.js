@@ -1,5 +1,4 @@
 import "regenerator-runtime/runtime";
-//import "stream-browserify";
 import getEntityPluralName from "./api/get-entity-plural-name";
 import getTotalRecordCountWithFetch from "./api/get-total-record-count/with-fetch";
 
