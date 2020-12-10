@@ -3,7 +3,7 @@ import getApiResult from "./get-api-result";
 export default async function getEntitySetName(logicalName) {
   const entitySets = getEntitySets();
 
-  if (!entitySets.hasOwnProperty()) {
+  if (!entitySets.hasOwnProperty(logicalName)) {
     const entity = await getApiResult(
       `EntityDefinitions(LogicalName='${logicalName}')`,
       { $select: "EntitySetName" }
